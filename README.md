@@ -1,0 +1,24 @@
+**API :-**
+- The folder structure is :-
+    - config   
+        - This folder has jwt token secret key info.
+        - file name is token.js
+    - model
+        - This folder has mongoose schema information.
+        - Having "products.js" and "user.js" files
+    - routes
+        - This folder has routes js files.
+        - "products.js" file having all product routes API operations.
+        - "users.js" file having all user routes API operations.
+    - app.js
+        - This file is server starting file.
+        - Having all root setups for node application.
+    - authMiddleware.js
+        - This file having all authorization related logics
+        - Having three functionality
+            - For new user creation
+            - For signin routes -- new token will create
+            - For other routes -- token verification takes place.
+    - package.json
+            - This file is project descriptor file.
+            
