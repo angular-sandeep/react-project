@@ -48,7 +48,7 @@ module.exports = function() {
       console.log(user);
 
       // user credentials checking
-      userModel.findOne(user, (err, data) => {
+      userModel.findOne({$and: [{UserName: req.body.UserName},{Password: req.body.Password}]}, (err, data) => {
         //userModel.isAuthenticate(user, (err, data) => {
         if (err) {
           console.log(err);

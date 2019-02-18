@@ -8,7 +8,8 @@ export default class Login extends Component {
     super(props);
     this.state = {
       userName: "",
-      password: ""
+      password: "",
+      loginStatus: false
     };
 
     this.service = new APIService();
@@ -22,7 +23,7 @@ export default class Login extends Component {
 
   onLogin(e) {
     const history = this.props.history;
-    
+
     let user = {
       UserName: this.state.userName,
       Password: this.state.password
@@ -33,13 +34,17 @@ export default class Login extends Component {
       .isAuthenticate(user)
       .then(res => res.json())
       .then(resp => {
-        localStorage.setItem("token", `Bearer ${resp.token}`);
-        if (resp.role === "Admin") {
-          history.push("/admin-dashboard");
-        } else if (resp.role === "Operator") {
-          history.push("/operator-dashboard");
+        if (resp.status === 401) {
+          this.setState({ loginStatus: true });
         } else {
-          history.push("/user-dashboard");
+          localStorage.setItem("token", `Bearer ${resp.token}`);
+          if (resp.role === "Admin") {
+            history.push("/admin-dashboard");
+          } else if (resp.role === "Operator") {
+            history.push("/operator-dashboard");
+          } else {
+            history.push("/user-dashboard");
+          }
         }
       })
       .catch(err => console.log(err));
@@ -51,6 +56,12 @@ export default class Login extends Component {
         <div className=" row  justify-content-center align-items-center">
           <div className="col-md-7">
             <h1 className="text-center">Login Page</h1>
+            <hr />
+            {this.state.loginStatus ? (
+              <span className="alert alert-danger col-md-12 row align-items-center" role="alert">
+                Please Enter correct Username and Password
+              </span>
+            ) : null}
             <hr />
             <form>
               <div className="form-group">
