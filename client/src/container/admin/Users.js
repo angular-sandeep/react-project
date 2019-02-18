@@ -48,7 +48,7 @@ class Users extends Component {
   onPersonInfo(e){
     //alert(JSON.stringify(e));
     const history = this.props.history;
-    history.push(`/person/${e.UserId}`);
+    history.push(`/person/${e.UserId}/1`);
   }
 
   render() {
@@ -68,8 +68,7 @@ class Users extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.user.map((v, i) => (
-                
+              {this.state.user.map((v, i) => (          
                 <TableRow
                   key={i}
                   rec={v}

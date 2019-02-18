@@ -7,6 +7,12 @@ class UserComponent extends Component {
     super(props);
     this.state = {};
   }
+
+  componentDidMount(){
+    console.log(this.props.match.params.uid);
+    const history = this.props.history;
+    history.push(`/person/${this.props.match.params.uid}/3`);
+  }
   render() {
     return (
       <div>

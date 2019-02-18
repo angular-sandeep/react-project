@@ -19,18 +19,18 @@ const navbar = function() {
             New User
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/add-user-personal-info">
             Personal Info
           </Link>
-        </li>
+        </li> */}
         <li className="nav-item">
           <Link className="nav-link" to="/role">
             Roles
           </Link>
         </li>
       </ul>
-      <ul className="navbar-nav">
+      <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/logout">
             Logout

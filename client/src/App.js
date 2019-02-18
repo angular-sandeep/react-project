@@ -37,7 +37,7 @@ class App extends Component {
             <Route exact path="/" component={ Login } />
             <Route exact path="/admin-dashboard" component={ Users } />
             <Route exact path="/operator-dashboard" component={ OperatorComponent } />
-            <Route exact path="/user-dashboard" component={ UserComponent } />
+            <Route exact path="/user-dashboard/:uid/:id" component={ UserComponent } />
             
             <Route exact path="/new-user" component={ NewUser } />
             <Route exact path="/role" component={ Role } />
@@ -45,7 +45,7 @@ class App extends Component {
             
             <Route exact path="/add-user-personal-info" component={ PersonalInfo } />
             <Route exact path="/add-user-personal-info/:uid" component={ PersonalInfo } />
-            <Route exact path="/person/:uid" component={ Person } />
+            <Route exact path="/person/:uid/:id" component={ Person } />
             
             <Route exact path="/logout" component={ Logout } />
             <Route exact path="**" component={ Error } />

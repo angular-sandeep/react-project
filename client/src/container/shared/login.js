@@ -28,7 +28,6 @@ export default class Login extends Component {
       UserName: this.state.userName,
       Password: this.state.password
     };
-    console.log(user);
 
     this.service
       .isAuthenticate(user)
@@ -39,11 +38,14 @@ export default class Login extends Component {
         } else {
           localStorage.setItem("token", `Bearer ${resp.token}`);
           if (resp.role === "Admin") {
+            localStorage.setItem("_v_it", '1');
             history.push("/admin-dashboard");
           } else if (resp.role === "Operator") {
+            localStorage.setItem("_v_it", '2');
             history.push("/operator-dashboard");
           } else {
-            history.push("/user-dashboard");
+            localStorage.setItem("_v_it", '3');
+            history.push(`/user-dashboard/${resp.UserId}/3`);
           }
         }
       })
@@ -58,7 +60,10 @@ export default class Login extends Component {
             <h1 className="text-center">Login Page</h1>
             <hr />
             {this.state.loginStatus ? (
-              <span className="alert alert-danger col-md-12 row align-items-center" role="alert">
+              <span
+                className="alert alert-danger col-md-12 row align-items-center"
+                role="alert"
+              >
                 Please Enter correct Username and Password
               </span>
             ) : null}

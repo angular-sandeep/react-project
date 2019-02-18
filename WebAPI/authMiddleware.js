@@ -55,6 +55,9 @@ module.exports = function() {
           return;
         }
         if (data != undefined) {
+          let userId = data.UserId;
+          console.log(`user id is :===================> ${userId}`);
+          
           // token creation
           var token = jwt.sign({ user }, tokenSetting.jwtSecret, {
             expiresIn: 3600
@@ -65,7 +68,8 @@ module.exports = function() {
             res.send({
               status: 200,
               token: token,
-              role: data.RoleType
+              role: data.RoleType,
+              UserId: userId
             });
           });
         } else {

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import APIService from "./../../services/api";
 
-import Navbar from "./../admin/Navbar";
+import AdminNavbar from "./../shared/AdminNavbar";
+import OperatorNavbar from "./../shared/OperatorNavbar";
+import UserNavbar from "./../shared/UserNavbar";
 
 class Person extends Component {
   constructor(props) {
@@ -27,12 +29,17 @@ class Person extends Component {
       Education: "PhD",
       BirthSign: ""
     };
+    this.role = 1;
 
     this.service = new APIService();
   }
 
   componentDidMount() {
     let PersonId = this.props.match.params.uid;
+    console.log(this.props.match.params.id);
+
+    this.role = this.props.match.params.id;
+    
     this.service
       .findPersonById(PersonId)
       .then(res => res.json())
@@ -67,10 +74,15 @@ class Person extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        {this.role === 1 ? (
+          <AdminNavbar />
+        ) : this.role === 2 ? (
+          <OperatorNavbar />
+        ) : (
+          <UserNavbar />
+        )}
         <div className="container">
-        <h3 className="text-center">Person Information</h3>
-
+          <h3 className="text-center">Person Information</h3>
           <table className="table table-border table-striped">
             <thead />
             <tbody>
@@ -96,7 +108,8 @@ class Person extends Component {
               <tr>
                 <td>Address</td>
                 <td>
-                  {this.state.FlatNumber}, {this.state.SocietyName}, {this.state.AreaName}
+                  {this.state.FlatNumber}, {this.state.SocietyName},{" "}
+                  {this.state.AreaName}
                 </td>
               </tr>
               <tr>
@@ -130,7 +143,8 @@ class Person extends Component {
               <tr>
                 <td>Marital Status</td>
                 <td>{this.state.MaritalStatus}</td>
-              </tr><tr>
+              </tr>
+              <tr>
                 <td>Education</td>
                 <td>{this.state.Education}</td>
               </tr>

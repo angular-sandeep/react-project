@@ -6,16 +6,10 @@ const navbar = function() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/admin-dashboard">
-        Knowledge Base ||
+        Knowledge Base
       </Link>
-      <ul className="navbar-nav">
-        <li className="nav-item">
-          <Link className="nav-link" to="***">
-            Personal Info
-          </Link>
-        </li>
-      </ul>
-      <ul className="navbar-nav">
+      <ul className="navbar-nav" />
+      <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/logout">
             Logout
