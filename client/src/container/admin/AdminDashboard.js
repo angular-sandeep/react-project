@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./style.css";
 import NavBar from "./Navbar";
+import Footer from "../shared/Footer";
 
 class AdminComponent extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class AdminComponent extends Component {
     return (
       <div>
         <NavBar />
+        <Footer />
       </div>
     );
   }

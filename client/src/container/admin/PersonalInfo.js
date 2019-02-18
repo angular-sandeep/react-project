@@ -104,8 +104,8 @@ class PersonalInfo extends Component {
     const history = this.props.history;
     history.push("/admin-dashboard");
   }
-  componentDidMount(){
-    this.setState({PersonId: this.props.match.params.uid });
+  componentDidMount() {
+    this.setState({ PersonId: this.props.match.params.uid });
   }
 
   render() {
@@ -114,14 +114,12 @@ class PersonalInfo extends Component {
         <Navbar />
         <div className="container bg-light login">
           <div className=" row  justify-content-center align-items-center">
-            <div className="col-md-7">
-              <h1 className="text-center alert-primary">User Personal Info</h1>
+            <div className="col-md-8">
+              <h1 className="text-center">User Personal Info</h1>
               <hr />
               <form>
                 <div className="form-group">
-                  <label htmlFor="PersonId">
-                    Person Id
-                  </label>
+                  <label htmlFor="PersonId">Person Id</label>
                   <input
                     type="text"
                     className="form-control"
@@ -132,49 +130,53 @@ class PersonalInfo extends Component {
                     disabled
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="FirstName">
-                    First Name <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="FirstName"
-                    name="FirstName"
-                    value={this.state.FirstName}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="MiddleName">Middle Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="MiddleName"
-                    name="MiddleName"
-                    value={this.state.MiddleName}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
-                {/* Last Name */}
-                <div className="form-group">
-                  <label htmlFor="LastName">
-                    Last Name <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="LastName"
-                    name="LastName"
-                    value={this.state.LastName}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
+                <div className="row">
+                  <div className="form-group col-md-4">
+                    <label htmlFor="FirstName">
+                      First Name <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="FirstName"
+                      name="FirstName"
+                      value={this.state.FirstName}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  <div className="form-group col-md-4">
+                    <label htmlFor="MiddleName">
+                      Middle Name <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="MiddleName"
+                      name="MiddleName"
+                      value={this.state.MiddleName}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  {/* Last Name */}
+                  <div className="form-group col-md-4">
+                    <label htmlFor="LastName">
+                      Last Name <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="LastName"
+                      name="LastName"
+                      value={this.state.LastName}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
                 </div>
 
                 {/* Gender */}
                 <div className="form-group">
                   <label htmlFor="gender">
-                    Gender <span className="required"> * </span>
+                    Gender
                   </label>
                   <select
                     className="form-control"
@@ -235,118 +237,130 @@ class PersonalInfo extends Component {
                 </div>
 
                 {/* address */}
-                <div className="form-group">
-                  <h4>Address</h4>
-                  <label htmlFor="FlatNumeber">
-                    Flat Number <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="FlatNumber"
-                    name="FlatNumber"
-                    value={this.state.FlatNumber}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                  <label htmlFor="dob">Society Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="SocietyName"
-                    name="SocietyName"
-                    value={this.state.SocietyName}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                  <label htmlFor="dob">
-                    Area Name <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="AreaName"
-                    name="AreaName"
-                    value={this.state.AreaName}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
+                <h4>Address</h4>
+
+                <div className="row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="FlatNumeber">
+                      Flat Number <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="FlatNumber"
+                      name="FlatNumber"
+                      value={this.state.FlatNumber}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label htmlFor="dob">
+                      Society Name <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="SocietyName"
+                      name="SocietyName"
+                      value={this.state.SocietyName}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label htmlFor="dob">
+                      Area Name <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="AreaName"
+                      name="AreaName"
+                      value={this.state.AreaName}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  {/* Pincode */}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="Pincode">
+                      Pincode <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="Pincode"
+                      name="Pincode"
+                      value={this.state.Pincode}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
                 </div>
 
                 {/* City */}
-                <div className="form-group">
-                  <label htmlFor="City">
-                    City <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="City"
-                    name="City"
-                    value={this.state.City}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
+                <div className="row">
+                  <div className="form-group col-md-6">
+                    <label htmlFor="City">
+                      City <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="City"
+                      name="City"
+                      value={this.state.City}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+
+                  {/* State */}
+                  <div className="form-group  col-md-6">
+                    <label htmlFor="State">
+                      State <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="State"
+                      name="State"
+                      value={this.state.State}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
                 </div>
 
-                {/* State */}
-                <div className="form-group">
-                  <label htmlFor="State">
-                    State <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="State"
-                    name="State"
-                    value={this.state.State}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
+                <div className="row">
+                  {/* MobileNo */}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="MobileNo">
+                      Mobile Number <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="MobileNo"
+                      name="MobileNo"
+                      value={this.state.MobileNo}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
 
-                {/* Pincode */}
-                <div className="form-group">
-                  <label htmlFor="Pincode">
-                    Pincode <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="Pincode"
-                    name="Pincode"
-                    value={this.state.Pincode}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
-
-                {/* MobileNo */}
-                <div className="form-group">
-                  <label htmlFor="MobileNo">
-                    Mobile Number <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="MobileNo"
-                    name="MobileNo"
-                    value={this.state.MobileNo}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
-
-                {/* PhoneNo */}
-                <div className="form-group">
-                  <label htmlFor="PhoneNo">Phone Number</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="PhoneNo"
-                    name="PhoneNo"
-                    value={this.state.PhoneNo}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
+                  {/* PhoneNo */}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="PhoneNo">Phone Number</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="PhoneNo"
+                      name="PhoneNo"
+                      value={this.state.PhoneNo}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
                 </div>
 
                 {/* Gender */}
                 <div className="form-group">
                   <label htmlFor="MaritalStatus">
-                    Marital Status <span className="required"> * </span>
+                    Marital Status
                   </label>
                   <select
                     className="form-control"
@@ -382,7 +396,7 @@ class PersonalInfo extends Component {
                 {/* Education */}
                 <div className="form-group">
                   <label htmlFor="Education">
-                    Education <span className="required"> * </span>
+                    Education
                   </label>
                   <select
                     className="form-control"

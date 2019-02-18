@@ -36,7 +36,7 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={ Login } />
-            <Route exact path="/admin-dashboard" component={ AdminDashBoard } />
+            <Route exact path="/admin-dashboard" component={ Users } />
             <Route exact path="/operator-dashboard" component={ OperatorComponent } />
             <Route exact path="/user-dashboard" component={ UserComponent } />
             
