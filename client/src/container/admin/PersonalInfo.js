@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import APIService from "./../../services/api";
 
 import "./../shared/style.css";
-import Navbar from "./Navbar";
+import AdminNavbar from "./../shared/AdminNavbar";
+import Footer from "../shared/Footer";
 
 class PersonalInfo extends Component {
   constructor(props) {
@@ -111,7 +112,7 @@ class PersonalInfo extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <AdminNavbar />
         <div className="container bg-light login">
           <div className=" row  justify-content-center align-items-center">
             <div className="col-md-8">
@@ -146,7 +147,7 @@ class PersonalInfo extends Component {
                   </div>
                   <div className="form-group col-md-4">
                     <label htmlFor="MiddleName">
-                      Middle Name <span className="required"> * </span>
+                      Middle Name
                     </label>
                     <input
                       type="text"
@@ -430,6 +431,7 @@ class PersonalInfo extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

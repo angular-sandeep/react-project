@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UserNavbar from "./../shared/UserNavbar";
+import Footer from "../shared/Footer";
 
 class UserComponent extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class UserComponent extends Component {
     return (
       <div>
         <UserNavbar />
+        <Footer />
       </div>
     );
   }

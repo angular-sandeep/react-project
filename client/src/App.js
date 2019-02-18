@@ -7,7 +7,6 @@ import "./App.css";
 import Login from "./container/shared/login";
 import Logout from './container/shared/logout';
 
-import AdminDashBoard from './container/admin/AdminDashboard';
 import OperatorComponent from './container/admin/OperatorDashboard';
 import UserComponent from './container/user/UserDashboard';
 

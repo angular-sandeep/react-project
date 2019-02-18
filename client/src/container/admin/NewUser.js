@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import APIService from "./../../services/api";
 import "./../shared/style.css";
-import Navbar from "./Navbar";
+import AdminNavbar from "./../shared/AdminNavbar";
+import Footer from "../shared/Footer";
 
 class NewUser extends Component {
   constructor(props) {
@@ -58,7 +59,7 @@ class NewUser extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <AdminNavbar />
         {this.state.addUserToast ? (
           <div className="toast-body alert-success col-md-3 float-right">User added successfully</div>
         ) : null}
@@ -163,6 +164,7 @@ class NewUser extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

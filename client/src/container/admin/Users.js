@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar";
+import AdminNavbar from "./../shared/AdminNavbar";
+import Footer from "../shared/Footer";
+
 import TableHeader from "./../shared/TableHeader";
 import TableRow from "./../shared/TableRow";
 import APIService from "./../../services/api";
@@ -52,7 +54,7 @@ class Users extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <AdminNavbar />
         <div className="container bg-light">
           <h3 className="text-center">All User's info</h3>
 
@@ -78,6 +80,7 @@ class Users extends Component {
             </tbody>
           </table>
         </div>
+        <Footer />
       </div>
     );
   }

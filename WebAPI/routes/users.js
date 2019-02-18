@@ -156,31 +156,5 @@ router.put("/:id", (req, res) => {
   });
 });
 
-/* delete user based on userId */
-router.delete("/:id", (req, res) => {
-  let id = req.params.id;
-
-  userModel.deleteOne({ UserId: id }, (err, data) => {
-    if (err) {
-      res.send({ status: 500, error: err });
-    }
-    if (data.deletedCount)
-      res.send({ status: 200, message: `data deleted successfully` });
-    else
-      res.send({
-        status: 404,
-        message: `data not found for ${id}`
-      });
-  });
-});
 
 module.exports = router;
-
-// let promise = userModel.create(user);
-// promise.then( (res) => {
-//   res.send({ status: 200, message: "user added successfully" });
-// }).catch( (err) => {
-//   console.log(`inside catch`);
-
-//   res.send({ status: 500, error: err});
-// });

@@ -59,7 +59,7 @@ module.exports = function() {
           var token = jwt.sign({ user }, tokenSetting.jwtSecret, {
             expiresIn: 3600
           });
-
+          
           roleModel.findOne({ RoleId: data.RoleId }).exec((err, data) => {
             // TOKEN SEND TO CLIENT
             res.send({

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import APIService from "./../../services/api";
-
-import Navbar from "./Navbar";
+import AdminNavbar from "./../shared/AdminNavbar";
+import Footer from "../shared/Footer";
 import "./style.css";
 
 class Role extends Component {
@@ -43,7 +43,7 @@ class Role extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <AdminNavbar />
         <div className="container bg-light login">
           <div className=" row  justify-content-center align-items-center">
             <div className="col-md-7">
@@ -82,6 +82,7 @@ class Role extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
