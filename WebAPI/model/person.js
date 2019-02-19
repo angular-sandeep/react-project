@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const personSchema = mongoose.Schema({
   PersonId: {
-    type:String,
-  },  
+    type: String,
+  },
   FullName: {
     FirstName: String,
     MiddleName: String,
@@ -11,7 +11,7 @@ const personSchema = mongoose.Schema({
   },
   Gender: String,
   DateOfBirth: Date,
-  Age: Number,        // auto calculate
+  Age: Number,
   Address: {
     FlatNumber: String,
     SocietyName: String,
@@ -20,24 +20,25 @@ const personSchema = mongoose.Schema({
   City: String,
   State: String,
   Pincode: Number,
-  PhoneNo: Number,                  // should be optional
+  PhoneNo: Number,
   MobileNo: {
-    type:Number,
+    type: Number,
     unique: true,
-    // minLength: 10,
-    // maxLength: 10
   },
   PhysicalDisability: {
     type: String,
     default: 'null'
-  },                            // optional
+  },
   MaritalStatus: String,
   Education: String,
   BirthSign: {
     type: String,
     default: 'null'
-  },                        // optional
-  isAuthorized: { type: String, default: 'E' }   // E-Entry, R-Reject, A-Approved, P-Pending/Inactive
+  },
+  isAuthorized: {
+    type: String,
+    default: 'E'
+  } // E-Entry, R-Reject, A-Approved, P-Pending/Inactive
 });
 
 const Person = (module.exports = mongoose.model(

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-  UserId: String, // like AM101, SP102 etc
+  UserId: String,
   UserName: String,
   Email: {
     type: String,
@@ -18,7 +18,10 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 3
   },
-  isAuthorized: { type: String, default: "false" } // "true / false"
+  isAuthorized: {
+    type: String,
+    default: "false"
+  }
 });
 
 const userModel = (module.exports = mongoose.model("Users", userSchema, "Users"));
