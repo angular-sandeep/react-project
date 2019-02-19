@@ -45,7 +45,7 @@ export default class Login extends Component {
             history.push("/operator-dashboard");
           } else {
             localStorage.setItem("_v_it", '3');
-            history.push(`/user-dashboard/${resp.UserId}/3`);
+            history.push(`/user-dashboard/${resp.UserId}`);
           }
         }
       })

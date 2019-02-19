@@ -29,16 +29,16 @@ class Person extends Component {
       Education: "PhD",
       BirthSign: ""
     };
-    this.role = 1;
+    this.role = 0;
 
     this.service = new APIService();
   }
 
   componentDidMount() {
     let PersonId = this.props.match.params.uid;
-    console.log(this.props.match.params.id);
 
-    this.role = this.props.match.params.id;
+    this.role = localStorage.getItem("_v_it");
+    console.log("xxxxxxxxxxxxxxxx",this.role);
     
     this.service
       .findPersonById(PersonId)
@@ -67,20 +67,13 @@ class Person extends Component {
           Education: person.Education,
           BirthSign: person.BirthSign
         });
-        console.log(`the state is :==> ${JSON.stringify(this.state)}`);
       })
       .catch(err => console.log(err));
   }
   render() {
     return (
       <div>
-        {this.role === 1 ? (
-          <AdminNavbar />
-        ) : this.role === 2 ? (
-          <OperatorNavbar />
-        ) : (
-          <UserNavbar />
-        )}
+        {this.role === 1 ? ( <AdminNavbar />) : this.role === 2 ? (<OperatorNavbar />) : (<AdminNavbar />)}
         <div className="container">
           <h3 className="text-center">Person Information</h3>
           <table className="table table-border table-striped">

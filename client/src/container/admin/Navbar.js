@@ -20,8 +20,8 @@ const navbar = function() {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/add-user-personal-info">
-            Personal Info
+          <Link className="nav-link" to="/personstatus">
+            Personal
           </Link>
         </li>
         <li className="nav-item">

@@ -19,11 +19,11 @@ const navbar = function() {
             New User
           </Link>
         </li>
-        {/* <li className="nav-item">
-          <Link className="nav-link" to="/add-user-personal-info">
-            Personal Info
+        <li className="nav-item">
+          <Link className="nav-link" to="/personstatus">
+            Personal Status 
           </Link>
-        </li> */}
+        </li>
         <li className="nav-item">
           <Link className="nav-link" to="/role">
             Roles
