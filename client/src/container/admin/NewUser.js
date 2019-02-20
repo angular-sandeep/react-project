@@ -14,7 +14,10 @@ class NewUser extends Component {
       Password: "",
       Role: "AccessUser",
       Roles: ["AccessUser", "Admin", "Operator"],
-      addUserToast: false
+      addUserToast: false,
+      isMobileUnique: false,
+      isEmailUnique: false,
+      isUserNameUnique: false,
     };
 
     this.service = new APIService();
@@ -24,6 +27,50 @@ class NewUser extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+  }
+
+  onCheckMobile(e) {
+    this.service
+      .checkUniqueMobileNo({ Mobile: e.target.value })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status == 200) {
+          this.setState({isMobileUnique : true})
+        }if(resp.status == 404){
+          this.setState({isMobileUnique : false})
+        }
+        console.log(resp.status);
+      })
+      .catch(err => console.log(err));
+  }
+
+  onCheckUserName(e) {
+    this.service
+    .checkUniqueUserName({ UserName: e.target.value })
+    .then(res => res.json())
+    .then(resp => {
+      if (resp.status == 200) {
+        this.setState({isUserNameUnique : true})
+      }if(resp.status == 404){
+        this.setState({isUserNameUnique : false})
+      }
+      console.log(resp.status);
+    })
+    .catch(err => console.log(err));  }
+
+  onCheckEmail(e) {
+    this.service
+      .checkUniqueEmail({ Email: e.target.value })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status == 200) {
+          this.setState({isEmailUnique : true})
+        }if(resp.status == 404){
+          this.setState({isEmailUnique : false})
+        }
+        console.log(resp.status);
+      })
+      .catch(err => console.log(err));
   }
 
   onSaveUser(e) {
@@ -46,7 +93,7 @@ class NewUser extends Component {
         this.setState({ addUserToast: true });
         setTimeout(() => {
           history.push(`/add-user-personal-info/${resp.uid}`);
-        }, 3000);
+        }, 1000);
       })
       .catch(err => console.log(err));
   }
@@ -61,7 +108,9 @@ class NewUser extends Component {
       <div>
         <AdminNavbar />
         {this.state.addUserToast ? (
-          <div className="toast-body alert-success col-md-3 float-right">User added successfully</div>
+          <div className="toast-body alert-success col-md-3 float-right">
+            User added successfully
+          </div>
         ) : null}
         <div className="container bg-light login">
           <div className=" row  justify-content-center align-items-center">
@@ -80,9 +129,15 @@ class NewUser extends Component {
                     name="UserName"
                     value={this.state.UserName}
                     onChange={this.onChangeUser.bind(this)}
+                    onBlur={this.onCheckUserName.bind(this)}
                     placeholder="sandeep.pal"
                     required
                   />
+                  {this.state.isUserNameUnique ? (
+                    <p className="alert-danger">
+                      Username already used
+                    </p>
+                  ) : null}
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">
@@ -95,9 +150,15 @@ class NewUser extends Component {
                     name="Email"
                     value={this.state.Email}
                     onChange={this.onChangeUser.bind(this)}
+                    onBlur={this.onCheckEmail.bind(this)}
                     placeholder="sandeep.pal@gmail.com"
                     required
                   />
+                  {this.state.isEmailUnique ? (
+                    <p className="alert-danger">
+                      Email already used
+                    </p>
+                  ) : null}
                 </div>
                 <div className="form-group">
                   <label htmlFor="mobile">
@@ -110,9 +171,15 @@ class NewUser extends Component {
                     name="Mobile"
                     value={this.state.Mobile}
                     onChange={this.onChangeUser.bind(this)}
+                    onBlur={this.onCheckMobile.bind(this)}
                     placeholder="6789067890"
                     required
                   />
+                  {this.state.isMobileUnique ? (
+                    <p className="alert-danger">
+                      Mobile number already used
+                    </p>
+                  ) : null}
                 </div>
                 <div className="form-group">
                   <label htmlFor="password">
@@ -165,6 +232,9 @@ class NewUser extends Component {
           </div>
         </div>
         <Footer />
+        <br />
+        <br />
+        <hr />
       </div>
     );
   }

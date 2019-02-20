@@ -20,10 +20,10 @@ const personSchema = mongoose.Schema({
   City: String,
   State: String,
   Pincode: Number,
-  PhoneNo: Number,
+  PhoneNo: String,
   MobileNo: {
     type: Number,
-    unique: true,
+    unique: false,
   },
   PhysicalDisability: {
     type: String,

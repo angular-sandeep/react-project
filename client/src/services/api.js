@@ -50,7 +50,7 @@ class APIService {
     return promise;
   }
 
-  // add new user
+  // add new person
   addNewPerson(person) {
     let promise = fetch("http://localhost:8080/api/person/create", {
       method: "POST",
@@ -63,7 +63,7 @@ class APIService {
     return promise;
   }
 
-  // add new user
+  // find person by user /person id
   findPersonById(PersonId) {
     let promise = fetch(`http://localhost:8080/api/person/${PersonId}`, {
       method: "GET",
@@ -83,6 +83,66 @@ class APIService {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token")
       }
+    });
+    return promise;
+  }
+
+  /*
+    getting data based on status like Pending, Approved, Rejected
+  */
+  findUserByStatus(user) {
+    let promise = fetch("http://localhost:8080/api/users/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(user)
+    });
+    return promise;
+  }
+
+  /*
+    checking uniqueness of username
+  */
+  checkUniqueUserName(user) {
+    let promise = fetch("http://localhost:8080/api/users/checkUserName", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(user)
+    });
+    return promise;
+  }
+
+  /*
+    checking uniqueness of username
+  */
+  checkUniqueMobileNo(user) {
+    let promise = fetch("http://localhost:8080/api/users/checkMobileNo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(user)
+    });
+    return promise;
+  }
+
+  /*
+    checking uniqueness of username
+  */
+  checkUniqueEmail(user) {
+    let promise = fetch("http://localhost:8080/api/users/checkEmail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(user)
     });
     return promise;
   }

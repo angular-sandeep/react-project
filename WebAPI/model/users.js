@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
   },
   isAuthorized: {
     type: String,
-    default: "false"
+    default: "Pending"      // other's :- Approved, Rejected
   }
 });
 

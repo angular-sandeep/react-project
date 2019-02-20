@@ -1,25 +1,33 @@
 import React, { Component } from "react";
 
 class TableRowComponent extends Component {
-  onRowClick() {
-    // a "selected" method is used to pass received data
-    this.props.selected(this.props.rec);
+  onAuthorize() {
+    this.props.authorize(this.props.rec);
   }
 
-  onPersonInfo(){
+  onReject() {
+    this.props.reject(this.props.rec);
+  }
+
+  onPersonInfo() {
     this.props.person(this.props.rec);
-    //alert(JSON.stringify(this.props.rec));
   }
   render() {
     let key = Object.keys(this.props.rec);
-    //let idx = 0;
     return (
-      /* Dynamic */
       <tr>
         {key.map((v, i) => (
-          <td key={i} onClick={this.onPersonInfo.bind(this)}>{this.props.rec[v]}</td>
+          <td key={i} onClick={this.onPersonInfo.bind(this)}>
+            {this.props.rec[v]}
+          </td>
         ))}
-        <td className="btn-link" onClick={this.onRowClick.bind(this)}>Authorized</td>
+        {/* {( localStorage.getItem("_v_it") === "1" && status === 'Pending' )?  */}
+        {localStorage.getItem("_v_it") === "1" ? (
+          <td>
+            <span className="btn-link" onClick={this.onAuthorize.bind(this)}>Authorize</span> /
+            <span className="btn-link" onClick={this.onReject.bind(this)}> Reject</span>
+          </td>
+        ) : null}
       </tr>
     );
   }

@@ -146,9 +146,7 @@ class PersonalInfo extends Component {
                     />
                   </div>
                   <div className="form-group col-md-4">
-                    <label htmlFor="MiddleName">
-                      Middle Name
-                    </label>
+                    <label htmlFor="MiddleName">Middle Name</label>
                     <input
                       type="text"
                       className="form-control"
@@ -176,9 +174,7 @@ class PersonalInfo extends Component {
 
                 {/* Gender */}
                 <div className="form-group">
-                  <label htmlFor="gender">
-                    Gender
-                  </label>
+                  <label htmlFor="gender">Gender</label>
                   <select
                     className="form-control"
                     id="gender"
@@ -360,9 +356,7 @@ class PersonalInfo extends Component {
 
                 {/* Gender */}
                 <div className="form-group">
-                  <label htmlFor="MaritalStatus">
-                    Marital Status
-                  </label>
+                  <label htmlFor="MaritalStatus">Marital Status</label>
                   <select
                     className="form-control"
                     id="MaritalStatus"
@@ -396,9 +390,7 @@ class PersonalInfo extends Component {
 
                 {/* Education */}
                 <div className="form-group">
-                  <label htmlFor="Education">
-                    Education
-                  </label>
+                  <label htmlFor="Education">Education</label>
                   <select
                     className="form-control"
                     id="Education"
@@ -431,6 +423,8 @@ class PersonalInfo extends Component {
             </div>
           </div>
         </div>
+        <br />
+        <hr />
         <Footer />
       </div>
     );
