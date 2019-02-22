@@ -9,3 +9,10 @@ nav{
 ul li{
     font-weight: bold;
 }
+
+.no-record{
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: center;
+    border-collapse: collapse;
+}

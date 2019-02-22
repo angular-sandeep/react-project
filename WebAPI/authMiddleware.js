@@ -67,7 +67,7 @@ module.exports = function() {
             // TOKEN SEND TO CLIENT
             res.send({
               status: 200,
-              token: token,
+              token: `Bearer ${token}`,
               role: data.RoleType,
               UserId: userId
             });

@@ -3,6 +3,8 @@ import APIService from "./../../services/api";
 
 import "./../shared/style.css";
 import AdminNavbar from "./../shared/AdminNavbar";
+import OperatorNavbar from "./../shared/OperatorNavbar";
+import UserNavbar from "./../shared/UserNavbar";
 import Footer from "../shared/Footer";
 
 class PersonalInfo extends Component {
@@ -81,7 +83,8 @@ class PersonalInfo extends Component {
       PhysicalDisability: this.state.PhysicalDisability,
       MaritalStatus: this.state.MaritalStatus,
       Education: this.state.Education,
-      BirthSign: this.state.BirthSign
+      BirthSign: this.state.BirthSign,
+      CreatedBy: localStorage.getItem("_v_it")
     };
     console.log(person);
 
@@ -92,9 +95,11 @@ class PersonalInfo extends Component {
       .then(res => res.json())
       .then(resp => {
         if (resp.status === 401) {
+          alert(resp);
           history.push("/");
         } else if (resp.status === 200) {
-          history.push("/users");
+          alert(resp);
+          history.push("/personstatus");
           console.log(resp);
         }
       })
@@ -103,16 +108,61 @@ class PersonalInfo extends Component {
 
   onCancel(e) {
     const history = this.props.history;
-    history.push("/admin-dashboard");
+    if (localStorage.getItem("_v_it") === "1") {
+      history.push("/admin-dashboard");
+    } else {
+      history.push("/operator-dashboard");
+    }
   }
+
   componentDidMount() {
-    this.setState({ PersonId: this.props.match.params.uid });
+    let pid = this.props.match.params.uid;
+    this.setState({ PersonId: pid });
+
+    this.service
+      .findPersonById(pid)
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status == 200) {
+          let person = resp.data[0];
+          //alert(JSON.stringify(person));
+
+          this.setState({
+            PersonId: person.FullName.PersonId,
+            FirstName: person.FullName.FirstName,
+            MiddleName: person.FullName.MiddleName,
+            LastName: person.FullName.LastName,
+            Gender: person.Gender,
+            DateOfBirth: person.DateOfBirth,
+            Age: person.Age,
+            FlatNumber: person.Address.FlatNumber,
+            SocietyName: person.Address.SocietyName,
+            AreaName: person.Address.AreaName,
+            City: person.City,
+            State: person.State,
+            Pincode: person.Pincode,
+            PhoneNo: person.PhoneNo,
+            MobileNo: person.MobileNo,
+            PhysicalDisability: person.PhysicalDisability,
+            MaritalStatus: person.MaritalStatus,
+            Education: person.Education,
+            BirthSign: person.BirthSign
+          });
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div>
-        <AdminNavbar />
+        {/* {localStorage.getItem("_v_it") === "1" ? <AdminNavbar /> : localStorage.getItem("_v_it") === "2" ? <OperatorNavbar /> : <UserNavbar />} */}
+        {localStorage.getItem("_v_it") === "1" ? (
+          <AdminNavbar />
+        ) : (
+          <OperatorNavbar />
+        )}
+
         <div className="container bg-light login">
           <div className=" row  justify-content-center align-items-center">
             <div className="col-md-8">
@@ -172,65 +222,87 @@ class PersonalInfo extends Component {
                   </div>
                 </div>
 
-                {/* Gender */}
+                <div className="row">
+                  <div className="form-group col-md-6">
+                    {/* Date of Birth */}
+                    <label htmlFor="dob">
+                      Date of Birth <span className="required"> * </span>
+                    </label>
+                    <input
+                      type="date"
+                      className="form-control"
+                      id="dob"
+                      name="DateOfBirth"
+                      value={this.state.DateOfBirth}
+                      onChange={this.onChangeUser.bind(this)}
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    {/* Age */}
+                    <label htmlFor="age">Age</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="age"
+                      name="Age"
+                      value={this.state.Age}
+                      onChange={this.onChangeUser.bind(this)}
+                      placeholder="xyz"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div className="row">
+                  {/* Gender */}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="gender">Gender</label>
+                    <select
+                      className="form-control"
+                      id="gender"
+                      onChange={this.onChangeUser.bind(this)}
+                      name="Gender"
+                    >
+                      {this.state.Genders.map((value, idx) => (
+                        <option value={value} key={idx}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* Marital Status */}
+                  <div className="form-group col-md-6">
+                    <label htmlFor="MaritalStatus">Marital Status</label>
+                    <select
+                      className="form-control"
+                      id="MaritalStatus"
+                      onChange={this.onChangeUser.bind(this)}
+                      name="MaritalStatus"
+                    >
+                      {this.state.Marital_Status.map((value, idx) => (
+                        <option value={value} key={idx}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Education */}
                 <div className="form-group">
-                  <label htmlFor="gender">Gender</label>
+                  <label htmlFor="Education">Education</label>
                   <select
                     className="form-control"
-                    id="gender"
+                    id="Education"
                     onChange={this.onChangeUser.bind(this)}
-                    name="Gender"
+                    name="Education"
                   >
-                    {this.state.Genders.map((value, idx) => (
+                    {this.state.Educations.map((value, idx) => (
                       <option value={value} key={idx}>
                         {value}
                       </option>
                     ))}
                   </select>
-                </div>
-
-                {/* Date of Birth */}
-                <div className="form-group">
-                  <label htmlFor="dob">
-                    Date of Birth <span className="required"> * </span>
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    id="dob"
-                    name="DateOfBirth"
-                    value={this.state.DateOfBirth}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
-                </div>
-
-                {/* Age */}
-                <div className="form-group">
-                  <label htmlFor="age">Age</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="age"
-                    name="Age"
-                    value={this.state.Age}
-                    onChange={this.onChangeUser.bind(this)}
-                    placeholder="xyz"
-                    disabled
-                  />
-                </div>
-
-                {/* BirthSign */}
-                <div className="form-group">
-                  <label htmlFor="BirthSign">Birth Sign</label>
-                  <span> (If any)</span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="BirthSign"
-                    name="BirthSign"
-                    value={this.state.BirthSign}
-                    onChange={this.onChangeUser.bind(this)}
-                  />
                 </div>
 
                 {/* address */}
@@ -324,6 +396,8 @@ class PersonalInfo extends Component {
                   </div>
                 </div>
 
+                <h4>Contact</h4>
+
                 <div className="row">
                   {/* MobileNo */}
                   <div className="form-group col-md-6">
@@ -354,23 +428,19 @@ class PersonalInfo extends Component {
                   </div>
                 </div>
 
-                {/* Gender */}
+                {/* BirthSign */}
                 <div className="form-group">
-                  <label htmlFor="MaritalStatus">Marital Status</label>
-                  <select
+                  <label htmlFor="BirthSign">Birth Sign</label>
+                  <span> (If any)</span>
+                  <input
+                    type="text"
                     className="form-control"
-                    id="MaritalStatus"
+                    id="BirthSign"
+                    name="BirthSign"
+                    value={this.state.BirthSign}
                     onChange={this.onChangeUser.bind(this)}
-                    name="MaritalStatus"
-                  >
-                    {this.state.Marital_Status.map((value, idx) => (
-                      <option value={value} key={idx}>
-                        {value}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-
                 {/* PhysicalDisability */}
                 <div className="form-group">
                   <label htmlFor="PhysicalDisability">
@@ -387,24 +457,6 @@ class PersonalInfo extends Component {
                     onChange={this.onChangeUser.bind(this)}
                   />
                 </div>
-
-                {/* Education */}
-                <div className="form-group">
-                  <label htmlFor="Education">Education</label>
-                  <select
-                    className="form-control"
-                    id="Education"
-                    onChange={this.onChangeUser.bind(this)}
-                    name="Education"
-                  >
-                    {this.state.Educations.map((value, idx) => (
-                      <option value={value} key={idx}>
-                        {value}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 <button
                   type="button"
                   className="btn btn-danger"

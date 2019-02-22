@@ -4,6 +4,8 @@ import APIService from "./../../services/api";
 import AdminNavbar from "./../shared/AdminNavbar";
 import OperatorNavbar from "./../shared/OperatorNavbar";
 import UserNavbar from "./../shared/UserNavbar";
+import Footer from './../shared/Footer';
+import './style.css';
 
 class Person extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class Person extends Component {
       MiddleName: "",
       LastName: "",
       Gender: "Male",
-      DateOfBirth: "",
+      DateOfBirth: '',
       Age: 0,
       FlatNumber: "",
       SocietyName: "",
@@ -29,17 +31,13 @@ class Person extends Component {
       Education: "PhD",
       BirthSign: ""
     };
-    this.role = 0;
-
+    
     this.service = new APIService();
   }
 
   componentDidMount() {
     let PersonId = this.props.match.params.uid;
-
-    this.role = localStorage.getItem("_v_it");
-    console.log("xxxxxxxxxxxxxxxx",this.role);
-    
+ 
     this.service
       .findPersonById(PersonId)
       .then(res => res.json())
@@ -52,7 +50,7 @@ class Person extends Component {
           MiddleName: person.FullName.MiddleName,
           LastName: person.FullName.LastName,
           Gender: person.Gender,
-          DateOfBirth: person.DateOfBirth,
+          DateOfBirth: new Date(person.DateOfBirth),
           Age: person.Age,
           FlatNumber: person.Address.FlatNumber,
           SocietyName: person.Address.SocietyName,
@@ -70,80 +68,89 @@ class Person extends Component {
       })
       .catch(err => console.log(err));
   }
+
+  onEdit(e){
+    const history = this.props.history;
+    history.push(`/add-user-personal-info/${this.props.match.params.uid}`);
+  }
   render() {
     return (
       <div>
-        {this.role === 1 ? ( <AdminNavbar />) : this.role === 2 ? (<OperatorNavbar />) : (<AdminNavbar />)}
+        {localStorage.getItem("_v_it") === "1" ? ( <AdminNavbar />) : localStorage.getItem("_v_it") === "2" ? (<OperatorNavbar />) : (<UserNavbar />)}
         <div className="container">
           <h3 className="text-center">Person Information</h3>
+          <button className="btn btn-primary person-edit" onClick={this.onEdit.bind(this)}> Edit </button>
           <table className="table table-border table-striped">
             <thead />
             <tbody>
               <tr>
-                <td>FullName</td>
+                <td className="person-head">FullName</td>
                 <td>
                   {this.state.FirstName} {this.state.MiddleName}{" "}
                   {this.state.LastName}
                 </td>
               </tr>
               <tr>
-                <td>Gender</td>
+                <td className="person-head">Gender</td>
                 <td>{this.state.Gender}</td>
               </tr>
               <tr>
-                <td>Date of Birth</td>
+                <td className="person-head">Date of Birth</td>
                 <td>{this.state.DateOfBirth.substring(0, 10)}</td>
               </tr>
               <tr>
-                <td>Age</td>
+                <td className="person-head">Age</td>
                 <td>{this.state.Age}</td>
               </tr>
               <tr>
-                <td>Address</td>
+                <td className="person-head">Address</td>
                 <td>
                   {this.state.FlatNumber}, {this.state.SocietyName},{" "}
                   {this.state.AreaName}
                 </td>
               </tr>
               <tr>
-                <td>City</td>
+                <td className="person-head">City</td>
                 <td>{this.state.City}</td>
               </tr>
               <tr>
-                <td>State</td>
+                <td className="person-head">State</td>
                 <td>{this.state.State}</td>
               </tr>
               <tr>
-                <td>Pincode</td>
+                <td className="person-head">Pincode</td>
                 <td>{this.state.Pincode}</td>
               </tr>
               <tr>
-                <td>Phone Number</td>
+                <td className="person-head">Phone Number</td>
                 <td>{this.state.PhoneNo}</td>
               </tr>
               <tr>
-                <td>Mobile Number</td>
+                <td className="person-head">Mobile Number</td>
                 <td>{this.state.MobileNo}</td>
               </tr>
               <tr>
-                <td>Birth Sign</td>
+                <td className="person-head">Birth Sign</td>
                 <td>{this.state.BirthSign}</td>
               </tr>
               <tr>
-                <td>Physical Disability</td>
+                <td className="person-head">Physical Disability</td>
                 <td>{this.state.PhysicalDisability}</td>
               </tr>
               <tr>
-                <td>Marital Status</td>
+                <td className="person-head">Marital Status</td>
                 <td>{this.state.MaritalStatus}</td>
               </tr>
               <tr>
-                <td>Education</td>
+                <td className="person-head">Education</td>
                 <td>{this.state.Education}</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <br />
+        <hr />
+        <Footer />
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import APIService from "./../../services/api";
 import "./../shared/style.css";
 import AdminNavbar from "./../shared/AdminNavbar";
+import OperatorNavbar from "./../shared/OperatorNavbar";
 import Footer from "../shared/Footer";
 
 class NewUser extends Component {
@@ -17,62 +18,82 @@ class NewUser extends Component {
       addUserToast: false,
       isMobileUnique: false,
       isEmailUnique: false,
-      isUserNameUnique: false,
+      isUserNameUnique: false
     };
 
     this.service = new APIService();
   }
 
+  /*
+   *  trigger at every change of form fields
+   */
   onChangeUser(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
 
+  /*
+   *  checking mobile is duplicate or not
+   */
   onCheckMobile(e) {
     this.service
       .checkUniqueMobileNo({ Mobile: e.target.value })
       .then(res => res.json())
       .then(resp => {
-        if (resp.status == 200) {
-          this.setState({isMobileUnique : true})
-        }if(resp.status == 404){
-          this.setState({isMobileUnique : false})
+        if (resp.status === 200) {
+          this.setState({ isMobileUnique: true });
+        }
+        if (resp.status === 404) {
+          this.setState({ isMobileUnique: false });
         }
         console.log(resp.status);
       })
       .catch(err => console.log(err));
   }
 
+  /*
+   *  checking username is duplicate or not
+   */
+
   onCheckUserName(e) {
     this.service
-    .checkUniqueUserName({ UserName: e.target.value })
-    .then(res => res.json())
-    .then(resp => {
-      if (resp.status == 200) {
-        this.setState({isUserNameUnique : true})
-      }if(resp.status == 404){
-        this.setState({isUserNameUnique : false})
-      }
-      console.log(resp.status);
-    })
-    .catch(err => console.log(err));  }
+      .checkUniqueUserName({ UserName: e.target.value })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({ isUserNameUnique: true });
+        }
+        if (resp.status === 404) {
+          this.setState({ isUserNameUnique: false });
+        }
+        console.log(resp.status);
+      })
+      .catch(err => console.log(err));
+  }
 
+  /*
+   *  checking email is duplicate or not
+   */
   onCheckEmail(e) {
     this.service
       .checkUniqueEmail({ Email: e.target.value })
       .then(res => res.json())
       .then(resp => {
-        if (resp.status == 200) {
-          this.setState({isEmailUnique : true})
-        }if(resp.status == 404){
-          this.setState({isEmailUnique : false})
+        if (resp.status === 200) {
+          this.setState({ isEmailUnique: true });
+        }
+        if (resp.status === 404) {
+          this.setState({ isEmailUnique: false });
         }
         console.log(resp.status);
       })
       .catch(err => console.log(err));
   }
 
+  /*
+   *  storing user into collection
+   */
   onSaveUser(e) {
     const history = this.props.history;
     let user = {
@@ -80,7 +101,8 @@ class NewUser extends Component {
       Email: this.state.Email,
       Mobile: this.state.Mobile,
       Password: this.state.Password,
-      Role: this.state.Role
+      Role: this.state.Role,
+      CreatedBy: localStorage.getItem("_v_it")
     };
     console.log(user);
 
@@ -100,13 +122,21 @@ class NewUser extends Component {
 
   onCancel(e) {
     const history = this.props.history;
-    history.push("/admin-dashboard");
+    if (localStorage.getItem("_v_it") === "1") {
+      history.push("/admin-dashboard");
+    } else {
+      history.push("/operator-dashboard");
+    }
   }
 
   render() {
     return (
       <div>
-        <AdminNavbar />
+        {localStorage.getItem("_v_it") === "1" ? (
+          <AdminNavbar />
+        ) : (
+          <OperatorNavbar />
+        )}
         {this.state.addUserToast ? (
           <div className="toast-body alert-success col-md-3 float-right">
             User added successfully
@@ -134,9 +164,7 @@ class NewUser extends Component {
                     required
                   />
                   {this.state.isUserNameUnique ? (
-                    <p className="alert-danger">
-                      Username already used
-                    </p>
+                    <p className="alert-danger">Username already used</p>
                   ) : null}
                 </div>
                 <div className="form-group">
@@ -155,9 +183,7 @@ class NewUser extends Component {
                     required
                   />
                   {this.state.isEmailUnique ? (
-                    <p className="alert-danger">
-                      Email already used
-                    </p>
+                    <p className="alert-danger">Email already used</p>
                   ) : null}
                 </div>
                 <div className="form-group">
@@ -176,9 +202,7 @@ class NewUser extends Component {
                     required
                   />
                   {this.state.isMobileUnique ? (
-                    <p className="alert-danger">
-                      Mobile number already used
-                    </p>
+                    <p className="alert-danger">Mobile number already used</p>
                   ) : null}
                 </div>
                 <div className="form-group">

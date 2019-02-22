@@ -36,15 +36,17 @@ export default class Login extends Component {
         if (resp.status === 401) {
           this.setState({ loginStatus: true });
         } else {
-          localStorage.setItem("token", `Bearer ${resp.token}`);
+          localStorage.setItem("token", resp.token);
           if (resp.role === "Admin") {
-            localStorage.setItem("_v_it", '1');
+            localStorage.setItem("_v_it", "1");
             history.push("/admin-dashboard");
           } else if (resp.role === "Operator") {
-            localStorage.setItem("_v_it", '2');
+            localStorage.setItem("_v_it", "2");
             history.push("/operator-dashboard");
           } else {
-            localStorage.setItem("_v_it", '3');
+            localStorage.setItem("_v_it", "3");
+            console.log(resp.UserId);
+            
             history.push(`/user-dashboard/${resp.UserId}`);
           }
         }

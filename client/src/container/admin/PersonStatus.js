@@ -1,92 +1,186 @@
 import React, { Component } from "react";
 import AdminNavbar from "./../shared/AdminNavbar";
-import OperatorNavbar from './../shared/OperatorNavbar';
+import OperatorNavbar from "./../shared/OperatorNavbar";
 import Footer from "../shared/Footer";
+import OptionComponent from "./../../components/OptionComponent";
 
 import TableHeader from "./../shared/TableHeader";
 import TableRow from "./../shared/TableRow";
 import APIService from "./../../services/api";
 
-class PersonStatus extends Component {
+class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [
+      person: [
         {
-          UserName: "",
-          Email: "",
-          Mobile: "",
-          Authorized: ""
+          PersonId: "",
+          FullName: "",
+          Gender: "",
+          City: "",
+          State: ""
         }
-      ]
+      ],
+      PersonStatusCategoryType: "Pending",
+      PersonStatusCategory: ["Pending", "Approved"],
+      header: []
     };
-
     this.service = new APIService();
   }
 
-  componentDidMount() {
+  onAuthorized(e) {
+    console.log(e);
     this.service
-      .getAllUser()
+      .isAuthorizedPerson({ PersonId: e.PersonId, isAuthorized: "Approved" })
       .then(res => res.json())
       .then(resp => {
-        this.setState({ user: resp.user });
-        //console.log(`user info is ${JSON.stringify(this.state.user)}` );
+        let persons = [];
+        resp.data.map((v, i) => {
+          let per = {
+            PersonId: v.PersonId,
+            FullName: `${v.FullName.FirstName} ${v.FullName.MiddleName} ${
+              v.FullName.LastName
+            }`,
+            Gender: v.Gender,
+            City: v.City,
+            State: v.State
+          };
+          persons.push(per);
+        });
+
+        console.log("response getting");
+
+        this.setState({ person: persons });
       })
       .catch(err => console.log(err));
   }
 
-  onAuthorized(e) {
-    this.service
-    .isAuthorized({Email:e.Email})
-    .then(res => res.json())
-    .then(resp => {
-      //console.log(`user info is ${JSON.stringify(resp.user)}` );
-      this.setState({user: resp.user});
-    })
-    .catch(err => console.log(err));
+  onReject(e) {
+    // this.service
+    //   .isAuthorized({ UserId: e.UserId, isAuthorized: "Rejected" })
+    //   .then(res => res.json())
+    //   .then(resp => {
+    //     this.setState({ user: resp.user });
+    //   })
+    //   .catch(err => console.log(err));
   }
 
-  onPersonInfo(e){
-    //alert(JSON.stringify(e));
+  onPersonInfo(e) {
     const history = this.props.history;
-    history.push(`/person/${e.UserId}`);
+    history.push(`/person/${e.PersonId}`);
+  }
+
+  // getting user's based on status category
+  onShowPersonByStatus(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+    this.service
+      //************************** */
+      .findPersonByStatus({ isAuthorized: e.target.value })
+      .then(res => res.json())
+      .then(resp => {
+        let persons = [];
+        resp.person.map((v, i) => {
+          let per = {
+            PersonId: v.PersonId,
+            FullName: `${v.FullName.FirstName} ${v.FullName.MiddleName} ${
+              v.FullName.LastName
+            }`,
+            Gender: v.Gender,
+            City: v.City,
+            State: v.State
+          };
+          persons.push(per);
+        });
+        this.setState({ person: persons });
+      })
+      .catch(err => console.log(err));
+  }
+
+  // getting all pending user's list
+  componentDidMount() {
+    this.service
+      .findPersonByStatus({ isAuthorized: "Pending" })
+      .then(res => res.json())
+      .then(resp => {
+        let persons = [];
+        resp.person.map((v, i) => {
+          let per = {
+            PersonId: v.PersonId,
+            FullName: `${v.FullName.FirstName} ${v.FullName.MiddleName} ${
+              v.FullName.LastName
+            }`,
+            Gender: v.Gender,
+            City: v.City,
+            State: v.State
+          };
+          persons.push(per);
+        });
+        this.setState({ header: resp.header });
+        this.setState({ person: persons });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div>
-        <AdminNavbar />
+        {localStorage.getItem("_v_it") === "1" ? (
+          <AdminNavbar />
+        ) : (
+          <OperatorNavbar />
+        )}
         <div className="container bg-light">
-        <br />
-        <div className="form-group">
-            <label HtmlFor="inputState">User's Status Category</label>
-            <select id="inputState" className="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
-                <option>...</option>
-                <option>...</option>
+          <br />
+          <div className="form-group">
+            <label htmlFor="PersonStatusCategoryType">
+              Personal Information Status Category
+            </label>
+            <select
+              type="text"
+              className="form-control"
+              name="PersonStatusCategoryType"
+              value={this.state.PersonStatusCategoryType}
+              onChange={this.onShowPersonByStatus.bind(this)}
+            >
+              {this.state.PersonStatusCategory.map((c, i) => (
+                <OptionComponent key={i} data={c} />
+              ))}
             </select>
-        </div>
-          <h3 className="text-center">All User's info</h3>
+          </div>
 
-          <table className="table table-bordered table-striped">
+          <h3 className="text-center">All Person's info</h3>
+          <table className="table table-bordered table-striped table-hover">
             <thead>
               <tr>
-                {Object.keys(this.state.user[0]).map((header, idx) => (
+                {this.state.header.map((header, idx) => (
                   <TableHeader key={idx} header={header} />
                 ))}
-                <th>Action</th>
+
+                {/* {Object.keys(this.state.person[0]).map((header, idx) => (
+                  <TableHeader key={idx} header={header} />
+                ))} */}
+                {localStorage.getItem("_v_it") === "1" &&
+                this.state.PersonStatusCategoryType === "Pending" ? (
+                  <th>Action</th>
+                ) : null}
               </tr>
             </thead>
             <tbody>
-              {this.state.user.map((v, i) => (          
-                <TableRow
-                  key={i}
-                  rec={v}
-                  selected={this.onAuthorized.bind(this)}
-                  person={this.onPersonInfo.bind(this)}
-                />
-              ))}
+              {/* {this.state.user.length !== 0 ? row : null) */}
+              {this.state.person.length !== 0
+                ? this.state.person.map((v, i) => (
+                    <TableRow
+                      key={i}
+                      rec={v}
+                      status={this.state.PersonStatusCategoryType}
+                      authorize={this.onAuthorized.bind(this)}
+                      reject={this.onReject.bind(this)}
+                      person={this.onPersonInfo.bind(this)}
+                    />
+                  ))
+                : <td className="no-record" colSpan="6">No Record Found</td>}
             </tbody>
           </table>
         </div>
@@ -96,4 +190,4 @@ class PersonStatus extends Component {
   }
 }
 
-export default PersonStatus;
+export default Users;

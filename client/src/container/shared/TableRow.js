@@ -21,8 +21,9 @@ class TableRowComponent extends Component {
             {this.props.rec[v]}
           </td>
         ))}
+         {/* && this.props.status === 'Pending' */}
         {/* {( localStorage.getItem("_v_it") === "1" && status === 'Pending' )?  */}
-        {localStorage.getItem("_v_it") === "1" ? (
+        {(localStorage.getItem("_v_it") === "1" && this.props.status === 'Pending')? (
           <td>
             <span className="btn-link" onClick={this.onAuthorize.bind(this)}>Authorize</span> /
             <span className="btn-link" onClick={this.onReject.bind(this)}> Reject</span>

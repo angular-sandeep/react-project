@@ -9,6 +9,10 @@ router.post("/create", (req, res) => {
     if (err) {
       res.send({ status: 500, error: err });
     } else {
+      var isAuthorized = "";
+      if (req.body.CreatedBy == 1) {
+        isAuthorized = "Approved";
+      }
       let user = {
         UserId:
           req.body.UserName.substring(0, 3) + Math.floor(Math.random() * 99999), // this is auto generated and should be unique.
@@ -16,7 +20,8 @@ router.post("/create", (req, res) => {
         Email: req.body.Email,
         Mobile: req.body.Mobile,
         Password: req.body.Password,
-        RoleId: role.RoleId
+        RoleId: role.RoleId,
+        isAuthorized: req.body.CreatedBy == 1 ? 'Approved':'Pending'
       };
       userModel.create(user, (err, data) => {
         if (err) {
@@ -53,7 +58,7 @@ router.post("/", (req, res) => {
       if (err) {
         res.send({ status: 500, error: err });
       } else {
-        res.send({ status: 200, user: user });
+        res.send({ status: 200, user: user, header: ['User Id', 'User Name', 'Email', 'Mobile'] });
       }
     });
 });
@@ -141,6 +146,5 @@ router.post("/checkEmail", (req, res) => {
     }
   });
 });
-
 
 module.exports = router;

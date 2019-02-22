@@ -5,18 +5,20 @@ import Footer from "../shared/Footer";
 class UserComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      UserId: ''
+    };
   }
 
   componentDidMount(){
-    console.log(this.props.match.params.uid);
+    this.setState({UserId: this.props.match.params.uid });
     const history = this.props.history;
-    history.push(`/person/${this.props.match.params.uid}/3`);
+    history.push(`/person/${this.props.match.params.uid}`);
   }
   render() {
     return (
       <div>
-        <UserNavbar />
+        <UserNavbar id={this.state.UserId}/>
         <Footer />
       </div>
     );

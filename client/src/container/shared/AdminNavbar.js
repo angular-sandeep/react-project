@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const navbar = function() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link className="navbar-brand" to="/admin-dashboard">
+      <Link className="navbar-brand" to="/users">
         Knowledge Base ||
       </Link>
       <ul className="navbar-nav">

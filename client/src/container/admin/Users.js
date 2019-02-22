@@ -7,11 +7,11 @@ import OptionComponent from "./../../components/OptionComponent";
 import TableHeader from "./../shared/TableHeader";
 import TableRow from "./../shared/TableRow";
 import APIService from "./../../services/api";
+import './style.css';
 
 class Users extends Component {
   constructor(props) {
     super(props);
-    var id = 1;
     this.state = {
       user: [
         {
@@ -21,8 +21,9 @@ class Users extends Component {
           Authorized: ""
         }
       ],
-      UserStatusCategoryType: "",
-      UserStatusCategory: ["Pending", "Approved", "Rejected"]
+      UserStatusCategoryType: "Pending",
+      UserStatusCategory: ["Pending", "Approved", "Rejected"],
+      header: []
     };
 
     //Role: ["Approved", "Pending", "Rejected", "All"],
@@ -48,6 +49,7 @@ class Users extends Component {
       })
       .catch(err => console.log(err));
   }
+
   onPersonInfo(e) {
     const history = this.props.history;
     history.push(`/person/${e.UserId}`);
@@ -58,11 +60,14 @@ class Users extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+    console.log(e.target.value);
+
     this.service
       .findUserByStatus({ isAuthorized: e.target.value })
       .then(res => res.json())
       .then(resp => {
-        console.log(resp.user.length);
+        console.log(resp.user);
+
         this.setState({ user: resp.user });
       })
       .catch(err => console.log(err));
@@ -74,7 +79,7 @@ class Users extends Component {
       .findUserByStatus({ isAuthorized: "Pending" })
       .then(res => res.json())
       .then(resp => {
-        console.log(resp.user.length);
+        this.setState({ header: resp.header });
         this.setState({ user: resp.user });
       })
       .catch(err => console.log(err));
@@ -83,7 +88,11 @@ class Users extends Component {
   render() {
     return (
       <div>
-        <AdminNavbar />
+        {localStorage.getItem("_v_it") === "1" ? (
+          <AdminNavbar />
+        ) : (
+          <OperatorNavbar />
+        )}
         <div className="container bg-light">
           <br />
           <div className="form-group">
@@ -102,29 +111,32 @@ class Users extends Component {
               ))}
             </select>
           </div>
-
           <h3 className="text-center">All User's info</h3>
-          <table className="table table-bordered table-striped">
+          <table className="table table-bordered table-striped  table-hover">
             <thead>
               <tr>
-                {Object.keys(this.state.user[0]).map((header, idx) => (
+                {this.state.header.map((header, idx) => (
                   <TableHeader key={idx} header={header} />
                 ))}
-                {localStorage.getItem("_v_it") === "1" ? <th>Action</th> : null}
+                {/* {Object.keys(this.state.user[0]).map((header, idx) => (
+                  <TableHeader key={idx} header={header} />
+                 ))} */}
+                {(localStorage.getItem("_v_it") === "1" && this.state.UserStatusCategoryType === 'Pending') ? <th>Action</th> : null}
               </tr>
             </thead>
             <tbody>
-              {/* {this.state.user.length !== 0 ? row : null) */}
-              {this.state.user.map((v, i) => (
-                <TableRow
-                  key={i}
-                  rec={v}
-                  //status={'Pending'}
-                  authorize={this.onAuthorized.bind(this)}
-                  reject={this.onReject.bind(this)}
-                  person={this.onPersonInfo.bind(this)}
-                />
-              ))}
+              {this.state.user.length !== 0
+                ? this.state.user.map((v, i) => (
+                    <TableRow
+                      key={i}
+                      rec={v}
+                      status={this.state.UserStatusCategoryType}
+                      authorize={this.onAuthorized.bind(this)}
+                      reject={this.onReject.bind(this)}
+                      person={this.onPersonInfo.bind(this)}
+                    />
+                  ))
+                : <td className="no-record" colSpan="5">No Record Found</td>}
             </tbody>
           </table>
         </div>

@@ -1,14 +1,33 @@
-import React from "react";
+import React, { Component } from 'react';
 import "./style.css";
 import { Link } from "react-router-dom";
 
-const navbar = function() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link className="navbar-brand" to="/admin-dashboard">
-        Knowledge Base
+class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      UserId: ''
+     }
+  }
+
+  componentDidMount(){
+    console.log("xxxxxxxxxxxxxx",this.props.id);
+    this.setState({UserId : `/person/${this.props.id}`});
+    
+  }
+  render() { 
+    return ( 
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Link className="navbar-brand" to="/user-dashboard">
+      Knowledge Base ||
       </Link>
-      <ul className="navbar-nav" />
+      <ul className="navbar-nav">
+        <li className="nav-item">
+          <Link className="nav-link" to={this.state.UserId}>
+            Personal Info
+          </Link>
+        </li>
+      </ul>
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/logout">
@@ -17,7 +36,33 @@ const navbar = function() {
         </li>
       </ul>
     </nav>
-  );
-};
+     );
+  }
+}
+ 
+export default NavBar;
+// const navbar = function() {
+//   return (
+//     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+//       <Link className="navbar-brand" to="/user-dashboard">
+//         Knowledge Base ||
+//       </Link>
+//       <ul className="navbar-nav">
+//         <li className="nav-item">
+//           <Link className="nav-link" to="/logout">
+//             update
+//           </Link>
+//         </li>
+//       </ul>
+//       <ul className="navbar-nav ml-auto">
+//         <li className="nav-item">
+//           <Link className="nav-link" to="/logout">
+//             Logout
+//           </Link>
+//         </li>
+//       </ul>
+//     </nav>
+//   );
+// };
 
-export default navbar;
+// export default navbar;

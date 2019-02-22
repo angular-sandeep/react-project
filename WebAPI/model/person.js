@@ -23,7 +23,6 @@ const personSchema = mongoose.Schema({
   PhoneNo: String,
   MobileNo: {
     type: Number,
-    unique: false,
   },
   PhysicalDisability: {
     type: String,
@@ -37,8 +36,8 @@ const personSchema = mongoose.Schema({
   },
   isAuthorized: {
     type: String,
-    default: 'E'
-  } // E-Entry, R-Reject, A-Approved, P-Pending/Inactive
+    default: 'Approved'
+  }  //Reject, Approved, Pending
 });
 
 const Person = (module.exports = mongoose.model(
@@ -46,3 +45,4 @@ const Person = (module.exports = mongoose.model(
   personSchema,
   "Person"
 ));
+

@@ -14,16 +14,15 @@ const personSchema = mongoose.Schema({
   Age: Number,
   Address: {
     FlatNumber: String,
-    SocietyName: String,
+    SocietyName: String, 
     AreaName: String
   },
   City: String,
   State: String,
   Pincode: Number,
-  PhoneNo: Number,
+  PhoneNo: String,
   MobileNo: {
     type: Number,
-    unique: true,
   },
   PhysicalDisability: {
     type: String,
@@ -37,12 +36,12 @@ const personSchema = mongoose.Schema({
   },
   isAuthorized: {
     type: String,
-    default: 'P'
-  } // R-Reject, A-Approved, P-Pending/Inactive
+    default: 'Pending'
+  }  //Reject, Approved, Pending
 });
 
-const Person = (module.exports = mongoose.model(
-  "Person",
+const TempPerson = (module.exports = mongoose.model(
+  "TempPerson",
   personSchema,
-  "Person"
+  "TempPerson"
 ));

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 const navbar = function() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link className="navbar-brand" to="/admin-dashboard">
-        Knowledge Base ||
+      <Link className="navbar-brand" to="/users">
+      Knowledge Base ||
       </Link>
       <ul className="navbar-nav">
         <li className="nav-item">
@@ -19,9 +19,14 @@ const navbar = function() {
             New User
           </Link>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/add-user-personal-info">
             Personal Info
+          </Link>
+        </li> */}
+        <li className="nav-item">
+          <Link className="nav-link" to="/personstatus">
+            Personal Status 
           </Link>
         </li>
       </ul>

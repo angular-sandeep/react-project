@@ -12,6 +12,19 @@ class APIService {
     return promise;
   }
 
+  // Authorized user info
+  isAuthorizedPerson(email) {
+    let promise = fetch("http://localhost:8080/api/person/approve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(email)
+    });
+    return promise;
+  }
+
   // login service
   isAuthenticate(user) {
     let promise = fetch("http://localhost:8080/api/user/auth", {
@@ -75,6 +88,20 @@ class APIService {
     return promise;
   }
 
+  // /*
+  //   Find person by person status like "Pending,"
+  // */
+  // findPersonById(PersonId) {
+  //   let promise = fetch(`http://localhost:8080/api/person/${PersonId}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: localStorage.getItem("token")
+  //     }
+  //   });
+  //   return promise;
+  // }
+
   // get all users
   getAllUser() {
     let promise = fetch("http://localhost:8080/api/users", {
@@ -101,6 +128,21 @@ class APIService {
     });
     return promise;
   }
+
+  /*
+    getting data based on status like Pending, Approved, Rejected
+  */
+ findPersonByStatus(person) {
+  let promise = fetch("http://localhost:8080/api/person", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token")
+    },
+    body: JSON.stringify(person)
+  });
+  return promise;
+}
 
   /*
     checking uniqueness of username

@@ -18,3 +18,11 @@ body {
   color: white;
   text-align: center;
 }
+
+.person-head{
+  font-weight: bold;
+}
+
+.person-edit{
+  margin-bottom: 10px;
+}
