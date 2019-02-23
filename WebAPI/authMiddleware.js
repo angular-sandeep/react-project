@@ -13,8 +13,6 @@ module.exports = function() {
       // token data reading
       let tokenValue = req.headers.authorization.split(" ")[1];
 
-      // received token printing
-      console.log(`token is :::====>>> ${tokenValue}`);
 
       if (tokenValue === undefined || tokenValue === "") {
         res.send({
@@ -45,39 +43,50 @@ module.exports = function() {
         Password: req.body.Password
       };
 
-      console.log(user);
-
       // user credentials checking
-      userModel.findOne({$and: [{UserName: req.body.UserName},{Password: req.body.Password}]}, (err, data) => {
-        //userModel.isAuthenticate(user, (err, data) => {
-        if (err) {
-          console.log(err);
-          return;
+      userModel.findOne(
+        {
+          $and: [
+            { UserName: req.body.UserName },
+            { Password: req.body.Password }
+          ]
+        },
+        (err, data) => {
+          //userModel.isAuthenticate(user, (err, data) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          if (data != undefined) {
+            if (data.isAuthorized === "Approved") {
+              // token creation
+              var token = jwt.sign({ user }, tokenSetting.jwtSecret, {
+                expiresIn: 3600
+              });
+              let userId = data.UserId;
+
+              roleModel.findOne({ RoleId: data.RoleId }).exec((err, data) => {
+                // TOKEN SEND TO CLIENT
+                res.send({
+                  status: 200,
+                  token: `Bearer ${token}`,
+                  role: data.RoleType,
+                  UserId: userId
+                });
+              });
+            }
+            else {
+              res.statusCode = 403;
+              res.send({ status: res.statusCode, message: "Unapproved user" });
+              res.end();
+            }
+          } else {
+            res.statusCode = 401;
+            res.send({ status: res.statusCode, message: "Unauthorized user" });
+            res.end();
+          }
         }
-        if (data != undefined) {
-          let userId = data.UserId;
-          console.log(`user id is :===================> ${userId}`);
-          
-          // token creation
-          var token = jwt.sign({ user }, tokenSetting.jwtSecret, {
-            expiresIn: 3600
-          });
-          
-          roleModel.findOne({ RoleId: data.RoleId }).exec((err, data) => {
-            // TOKEN SEND TO CLIENT
-            res.send({
-              status: 200,
-              token: `Bearer ${token}`,
-              role: data.RoleType,
-              UserId: userId
-            });
-          });
-        } else {
-          res.statusCode = 401;
-          res.send({ status: res.statusCode, message: "Unauthorized user" });
-          res.end();
-        }
-      });
+      );
       /* #endregion */
     }
   };

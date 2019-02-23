@@ -9,7 +9,8 @@ export default class Login extends Component {
     this.state = {
       userName: "",
       password: "",
-      loginStatus: false
+      loginStatus: false,
+      loginUnApprovedStatus: false
     };
 
     this.service = new APIService();
@@ -33,8 +34,12 @@ export default class Login extends Component {
       .isAuthenticate(user)
       .then(res => res.json())
       .then(resp => {
+        console.log(resp);
+
         if (resp.status === 401) {
-          this.setState({ loginStatus: true });
+          this.setState({ loginStatus: true, loginUnApprovedStatus: false });
+        } else if (resp.status === 403) {
+          this.setState({ loginStatus: false, loginUnApprovedStatus: true });
         } else {
           localStorage.setItem("token", resp.token);
           if (resp.role === "Admin") {
@@ -45,8 +50,6 @@ export default class Login extends Component {
             history.push("/operator-dashboard");
           } else {
             localStorage.setItem("_v_it", "3");
-            console.log(resp.UserId);
-            
             history.push(`/user-dashboard/${resp.UserId}`);
           }
         }
@@ -67,6 +70,14 @@ export default class Login extends Component {
                 role="alert"
               >
                 Please Enter correct Username and Password
+              </span>
+            ) : null}
+            {this.state.loginUnApprovedStatus ? (
+              <span
+                className="alert alert-danger col-md-12 row align-items-center"
+                role="alert"
+              >
+                Sorry you haven't approved yet by Admin
               </span>
             ) : null}
             <hr />

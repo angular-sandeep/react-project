@@ -4,7 +4,7 @@ import APIService from "./../../services/api";
 import "./../shared/style.css";
 import AdminNavbar from "./../shared/AdminNavbar";
 import OperatorNavbar from "./../shared/OperatorNavbar";
-import UserNavbar from "./../shared/UserNavbar";
+//import UserNavbar from "./../shared/UserNavbar";
 import Footer from "../shared/Footer";
 
 class PersonalInfo extends Component {
@@ -95,10 +95,8 @@ class PersonalInfo extends Component {
       .then(res => res.json())
       .then(resp => {
         if (resp.status === 401) {
-          alert(resp);
           history.push("/");
         } else if (resp.status === 200) {
-          alert(resp);
           history.push("/personstatus");
           console.log(resp);
         }
@@ -125,8 +123,7 @@ class PersonalInfo extends Component {
       .then(resp => {
         if (resp.status == 200) {
           let person = resp.data[0];
-          //alert(JSON.stringify(person));
-
+          
           this.setState({
             PersonId: person.FullName.PersonId,
             FirstName: person.FullName.FirstName,

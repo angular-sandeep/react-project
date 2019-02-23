@@ -50,7 +50,7 @@ class Person extends Component {
           MiddleName: person.FullName.MiddleName,
           LastName: person.FullName.LastName,
           Gender: person.Gender,
-          DateOfBirth: new Date(person.DateOfBirth),
+          DateOfBirth: person.DateOfBirth,
           Age: person.Age,
           FlatNumber: person.Address.FlatNumber,
           SocietyName: person.Address.SocietyName,
