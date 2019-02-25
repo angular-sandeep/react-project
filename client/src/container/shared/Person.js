@@ -71,7 +71,7 @@ class Person extends Component {
 
   onEdit(e){
     const history = this.props.history;
-    history.push(`/add-user-personal-info/${this.props.match.params.uid}`);
+    history.push(`/add-user-personal-info/${this.props.match.params.uid}/1`);
   }
   render() {
     return (

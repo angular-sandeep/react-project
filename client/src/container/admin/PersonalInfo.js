@@ -42,12 +42,14 @@ class PersonalInfo extends Component {
         "HSC",
         "SSC",
         "Illiterate"
-      ]
+      ],
+      action: false
     };
 
     this.service = new APIService();
   }
 
+  // call each onChange event on text field
   onChangeUser(e) {
     if (e.target.name === "DateOfBirth") {
       this.setState({
@@ -59,6 +61,7 @@ class PersonalInfo extends Component {
     });
   }
 
+  // saving person information of user
   onSave(e) {
     let person = {
       PersonId: this.state.PersonId,
@@ -104,6 +107,52 @@ class PersonalInfo extends Component {
       .catch(err => console.log(err));
   }
 
+  // updating person information of user
+  onEdit(e) {
+    let person = {
+      PersonId: this.props.match.params.uid,
+      FullName: {
+        FirstName: this.state.FirstName,
+        MiddleName: this.state.MiddleName,
+        LastName: this.state.LastName
+      },
+      Gender: this.state.Gender,
+      DateOfBirth: this.state.DateOfBirth,
+      Age: this.state.Age,
+      Address: {
+        FlatNumber: this.state.FlatNumber,
+        SocietyName: this.state.SocietyName,
+        AreaName: this.state.AreaName
+      },
+      City: this.state.City,
+      State: this.state.State,
+      Pincode: this.state.Pincode,
+      PhoneNo: this.state.PhoneNo,
+      MobileNo: this.state.MobileNo,
+      PhysicalDisability: this.state.PhysicalDisability,
+      MaritalStatus: this.state.MaritalStatus,
+      Education: this.state.Education,
+      BirthSign: this.state.BirthSign,
+      CreatedBy: localStorage.getItem("_v_it")
+    };
+    console.log(person);
+
+    // const history = this.props.history;
+
+    // this.service
+    //   .addNewPerson(person)
+    //   .then(res => res.json())
+    //   .then(resp => {
+    //     if (resp.status === 401) {
+    //       history.push("/");
+    //     } else if (resp.status === 200) {
+    //       history.push("/personstatus");
+    //       console.log(resp);
+    //     }
+    //   })
+    //   .catch(err => console.log(err));
+  }
+
   onCancel(e) {
     const history = this.props.history;
     if (localStorage.getItem("_v_it") === "1") {
@@ -115,7 +164,11 @@ class PersonalInfo extends Component {
 
   componentDidMount() {
     let pid = this.props.match.params.uid;
+    let action = this.props.match.params.action;
     this.setState({ PersonId: pid });
+    if (action === "1") {
+      this.setState({ action: true });
+    }
 
     this.service
       .findPersonById(pid)
@@ -123,7 +176,7 @@ class PersonalInfo extends Component {
       .then(resp => {
         if (resp.status == 200) {
           let person = resp.data[0];
-          
+
           this.setState({
             PersonId: person.FullName.PersonId,
             FirstName: person.FullName.FirstName,
@@ -153,7 +206,6 @@ class PersonalInfo extends Component {
   render() {
     return (
       <div>
-        {/* {localStorage.getItem("_v_it") === "1" ? <AdminNavbar /> : localStorage.getItem("_v_it") === "2" ? <OperatorNavbar /> : <UserNavbar />} */}
         {localStorage.getItem("_v_it") === "1" ? (
           <AdminNavbar />
         ) : (
@@ -461,13 +513,23 @@ class PersonalInfo extends Component {
                 >
                   Cancel
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.onSave.bind(this)}
-                >
-                  Add User
-                </button>
+                {this.state.action ? (
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={this.onEdit.bind(this)}
+                  >
+                    Edit User
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.onSave.bind(this)}
+                  >
+                    Add User
+                  </button>
+                )}
               </form>
             </div>
           </div>

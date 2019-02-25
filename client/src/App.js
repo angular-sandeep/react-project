@@ -46,6 +46,7 @@ class App extends Component {
             
             <Route exact path="/add-user-personal-info" component={ PersonalInfo } />
             <Route exact path="/add-user-personal-info/:uid" component={ PersonalInfo } />
+            <Route exact path="/add-user-personal-info/:uid/:action" component={ PersonalInfo } />
             <Route exact path="/person/:uid" component={ Person } />
             <Route exact path="/person" component={ Person } />
             <Route exact path="/personstatus" component={ PersonStatus } />
