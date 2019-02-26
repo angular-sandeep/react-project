@@ -192,7 +192,7 @@ router.post("/approve", (request, response) => {
                   if (data) {
                     console.log(data);
                     
-                    response.send({ status: 200, data: data });
+                    response.send({ status: 200, data: data,  header: ['Person Id', 'Full Name', 'Gender', 'City', 'State']  });
                   } else {
                     response.send({
                       status: 500,
@@ -234,7 +234,7 @@ router.post("/approve", (request, response) => {
                       response.send({ status: 500, err: err });
                     }
                     if (data) {
-                      response.send({ status: 200, data: data });
+                      response.send({ status: 200, data: data,   header: ['Person Id', 'Full Name', 'Gender', 'City', 'State'] });
                     } else {
                       response.send({
                         status: 500,
@@ -256,6 +256,10 @@ router.post("/approve", (request, response) => {
 
 /*
   Updating person information
+*/
+
+/*
+  update person profile creation based on userid/personid
 */
 router.put("/update", (request, response) => {
   var Person = {
@@ -287,14 +291,24 @@ router.put("/update", (request, response) => {
   console.log("inside update");
 
   console.log(Person);
-
-  TempPersonModel.create(Person).exec((err, res) => {
-    if (err) {
-      response.send({ status: 500, error: err });
-    } else {
-      response.send({ status: 200, Message: "Record Updated Successfully" });
-    }
-  });
+  
+  if (request.body.CreatedBy == 1) {
+    PersonModel.update({PersonId: Person.PersonId},Person, (err, res) => {
+      if (err) {
+        response.send({ status: 500, error: err });
+      } else {
+        response.send({ status: 200, data: res });
+      }
+    });
+  } else {
+    TempPersonModel.create({PersonId: Person.PersonId},Person, (err, res) => {
+      if (err) {
+        response.send({ status: 500, error: err });
+      } else {
+        response.send({ status: 200, data: res });
+      }
+    });
+  }
 });
 
 module.exports = router;

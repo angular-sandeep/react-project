@@ -76,6 +76,19 @@ class APIService {
     return promise;
   }
 
+  // add new person
+  updatePerson(person) {
+    let promise = fetch("http://localhost:8080/api/person/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      },
+      body: JSON.stringify(person)
+    });
+    return promise;
+  }
+
   // find person by user /person id
   findPersonById(PersonId) {
     let promise = fetch(`http://localhost:8080/api/person/${PersonId}`, {

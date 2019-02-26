@@ -137,20 +137,25 @@ class PersonalInfo extends Component {
     };
     console.log(person);
 
-    // const history = this.props.history;
-
-    // this.service
-    //   .addNewPerson(person)
-    //   .then(res => res.json())
-    //   .then(resp => {
-    //     if (resp.status === 401) {
-    //       history.push("/");
-    //     } else if (resp.status === 200) {
-    //       history.push("/personstatus");
-    //       console.log(resp);
-    //     }
-    //   })
-    //   .catch(err => console.log(err));
+    const history = this.props.history;
+    //history.push("/personstatus");
+    this.service
+      .updatePerson(person)
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.status === 500) {
+          console.log('error occured');
+          history.push("/");
+        } else if (resp.status === 200) {
+          if(localStorage.getItem("_v_it" == 1)){
+            history.push("/personstatus");
+          }else{
+            history.push(`/user-dashboard/${person.PersonId}`);
+          }
+          console.log(resp);
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   onCancel(e) {
