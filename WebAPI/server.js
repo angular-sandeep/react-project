@@ -1,3 +1,4 @@
+require('dotenv').config({ 'path': '.env' });
 const express = require("express");
 const bodyPasrer = require("body-parser");
 const cors = require("cors");
@@ -7,25 +8,26 @@ const mongoose = require("mongoose");
 const authMiddleware = require("./authMiddleware");
 
 // router setting
-var usersRouter = require("./routes/users");
-var personRouter = require("./routes/person");
-var rolesRouter = require("./routes/roles");
-var loginStatusRouter = require("./routes/loginstatus");
+const usersRouter = require("./routes/users");
+const personRouter = require("./routes/person");
+const rolesRouter = require("./routes/roles");
+const loginStatusRouter = require("./routes/loginstatus");
 
-var app = express();
+const PORT = process.env.PORT;
+
+const app = express();
 
 /* #region Mongoose Database connectivity logic */
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  "mongodb://localhost/HarbingerUserApp",
+  `${process.env.DATABASE_HOST}/UsersKnowledgeBase`,
   { useNewUrlParser: true }
 );
-var dbConnect = mongoose.connect;
+const dbConnect = mongoose.connect;
 if (!dbConnect) {
   console.log("sorry db connection is not established");
   return;
 }
-/* #endregion */
 
 
 /* #region middleware used in application */
@@ -40,9 +42,8 @@ app.use("/api/person", personRouter);
 app.use("/api/roles", rolesRouter);
 app.use("/api/loginStatus", loginStatusRouter);
 
-/* #endregion */
 
 // server started setting
-app.listen(8080, () => {
-  console.log(`server started on port 8080`);
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
