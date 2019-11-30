@@ -21,7 +21,7 @@ router.post("/create", (req, res) => {
         Mobile: req.body.Mobile,
         Password: req.body.Password,
         RoleId: role.RoleId,
-        isAuthorized: req.body.CreatedBy == 1 ? 'Approved':'Pending'
+        isAuthorized: req.body.CreatedBy == 1 ? 'Approved' : 'Pending'
       };
       userModel.create(user, (err, data) => {
         if (err) {
@@ -105,6 +105,9 @@ router.get("/:id", (req, res) => {
   });
 });
 
+/**
+ * http://127.0.0.1:8000/api/users/checkUserName
+ */
 // check user name exist or not
 router.post("/checkUserName", (req, res) => {
   userModel.findOne({ UserName: req.body.UserName }, (err, data) => {

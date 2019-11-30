@@ -37,6 +37,35 @@ app.use(bodyPasrer.json());
 app.use(authMiddleware());
 
 // router setting
+/**
+ * login ====> http://localhost:8000/api/user/auth
+ * axios(
+ *  method: "POST",
+ *  Header: {
+ *    "Content-Type": "application/json"  
+ *  } 
+ * body: {
+ *  }
+ * ).then().catch()
+ * req =====> {username: "sandeep@gmail.com",
+ *              password: "asjdhj" }
+ * res  =====> { status: 200, message: success, body: { username: sandeep, role: 2, token: "Bearer HJHJKDHJd.sfdjksdfl.sjkfhkdsj"}}
+ */
+
+/**
+* login ====> http://localhost:8000/api/users
+ * axios(
+ *  method: "GET",
+ *  Header: {
+ *    "Content-Type": "application/json",
+ *    "token": localStorage.getItem("token");   
+ *  } 
+ * body: {
+ *  }
+ * ).then().catch()
+* res  =====> { status: 200, message: success, body: { username: sandeep, role: 2, token: "Bearer HJHJKDHJd.sfdjksdfl.sjkfhkdsj"}}
+*/
+
 app.use("/api/users", usersRouter);
 app.use("/api/person", personRouter);
 app.use("/api/roles", rolesRouter);
